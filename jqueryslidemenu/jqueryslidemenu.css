@@ -1,0 +1,36 @@
+.kmenu {
+  z-index: 990;
+  position: absolute;
+  top: 0;
+  display: none;
+  background-color: white;
+  box-shadow: 0 0.1em 0.7em rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+/*Top level list items*/
+.kmenu .title {
+  padding: .2em 1.2em .2em .5em;
+  cursor: pointer;
+}
+.kmenu .title:hover, .kmenu .title:hover+span
+{
+  background-color:steelblue;
+  color: white;
+}
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass
+{
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.rightarrowclass
+{
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  transform: rotate(45deg);
+  font-size: .7em;
+}

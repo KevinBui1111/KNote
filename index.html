@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="http://www.javascripttoolbox.com/libsource.php/date/source/date.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+  <script src="script.js"></script>
+  <script src="kpopup/kpopup.js"></script>
+  <script src="kpopup/popup-ajax.js"></script>
+  <script src="jqueryslidemenu/jqueryslidemenu.js"></script>
+  <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="kpopup/kpopup.css" />
+  <link rel="stylesheet" href="note.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css" />
+  <link rel="stylesheet" href="jqueryslidemenu/jqueryslidemenu.css" />
+  <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css" />
+
+</head>
+<body spellcheck="false">
+
+  <div id="label-area">
+    <div>
+      <input type="search" />
+      <input type="button" value="Create new" onclick="create_note()" />
+    </div>
+    <div class="defaultlabel selected">default</div>
+
+  </div>
+
+  <div class="container"></div>
+
+  <div id="myslidemenu" class="kmenu">
+    <div class="kmenu-item">
+      <div class="title">Color</div>
+      <div class="kmenu" id="color_list">
+        <div class="khaki"></div>
+        <div class="pink"></div>
+        <div class="lavender"></div>
+        <div class="powderblue"></div>
+        <div class="palegreen"></div>
+        <div class="violet"></div>
+        <div class="slategrey"></div>
+        <div class="steelblue"></div>
+        <div class="crimson"></div>
+      </div>
+    </div>
+    <div class="kmenu-item" onclick="toggle_code_style()"><div class="title">Code style</div></div>
+    <div class="kmenu-item">
+      <select id="ddl_label" multiple></select>
+
+      <!--<div class="title">Label</div>
+      <div class="kmenu">
+        <div class="kmenu-item noclose">
+          <select id="ddl_label" multiple></select>
+        </div>
+      </div>-->
+    </div>
+  </div>
+
+  <hr />
+  <div>Created date: 2017-10-04 16:58</div>
+  <div>Created date: 2017-10-29 18:30</div>
+
+  <div class="hidden">
+    <div id="knote_temp" class="knote" tabindex="-1">
+      <div class="header" >
+        <div class="sign new">+</div>
+        <!--<div class="sign code ">c</div>-->
+        <div class="sign close">×</div>
+      </div>
+      <div class="content" contenteditable="true">
+
+      </div>
+
+      <div class="edge-right"></div>
+      <div class="edge-bottom"></div>
+      <div class="corner"></div>
+    </div>
+  </div>
+</body>
+</html>
