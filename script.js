@@ -30,6 +30,7 @@ $(document).ready(function () {
     $('.container').append(newnote);
     newnote.find('.content')
       .html(e.content)
+      .attr("class", e.class)
       .css('max-height', e.position.h - newnote.find('.header').innerHeight());
 
     apply_event(newnote[0]);
@@ -38,7 +39,7 @@ $(document).ready(function () {
   max_zindex = list_note.length;
 
   var maxheight = 0;
-  $(".container *").each((i, e) => { maxheight = Math.max(maxheight, e.offsetTop + e.offsetHeight); });
+  $(".container > *").each((i, e) => { maxheight = Math.max(maxheight, e.offsetTop + e.offsetHeight); });
   $(".container").height(maxheight);
 
   $('#color_list div').click(() => {
@@ -49,7 +50,9 @@ $(document).ready(function () {
   var chosen_label = $('#ddl_label').chosen({
     no_results_text: 'Enter to add new'
     ,width: '100%' 
-  });  // Get the chosen object
+  });
+
+  // Get the chosen object
   var chosen = chosen_label.data('chosen');
   // Bind the keyup event to the search box input
   chosen.search_field.on('keyup', function (e) {
@@ -63,22 +66,26 @@ $(document).ready(function () {
       // Trigger the update
       chosen_label.trigger("chosen:updated");
       chosen_label.trigger("change", { selected: option.val() });
-    }  });  chosen_label.change(label_change);
+    }
+  });
+  chosen_label.change(label_change);
 
-  $('#label-area').on('click', '.label,.defaultlabel', function(){
+  $('#label-area').on('click', '.label,.defaultlabel', function (e) {
+    if (!e.ctrlKey)
+      $('.label').removeClass('selected');
+
     $(this).toggleClass('selected');
 
-	var seleceted_label = $('#label-area .label.selected').toArray().map(lb=>lb.innerHTML);
-	var match_and = $('.defaultlabel').hasClass('selected');
+	  var seleceted_label = $('#label-area .label.selected').toArray().map(lb=>lb.innerHTML);
+	  var match_and = $('.defaultlabel').hasClass('selected');
 
-	document.querySelectorAll('.container .knote').forEach(note => {
-		var visible = match_and ? 
-			seleceted_label.every(lb => note.label.includes(lb)) :
-			note.label.some(lb => seleceted_label.includes(lb));
+	  document.querySelectorAll('.container .knote').forEach(note => {
+		  var visible = match_and ? 
+			  seleceted_label.every(lb => note.label.includes(lb)) :
+			  note.label.some(lb => seleceted_label.includes(lb));
 
-		if (visible) $(note).show();
-		else $(note).hide();
-	});
+      note.style.visibility = visible ? '' : 'hidden';
+	  });
   });
 
   setInterval(save_note, 2000);
@@ -104,6 +111,8 @@ function create_note() {
   $('.container').append(newnote);
 
   newnote[0].label = [];
+  // add current node
+  document.querySelectorAll('#label-area .label.selected').forEach(lb => add_label(newnote[0], lb.innerHTML));
 
   apply_event(newnote[0]);
 }
@@ -235,11 +244,13 @@ function apply_drag(id) {
 function save_note() {
   list_note = [];
   $(".container .knote").each((i, e) => {
+    var content = e.getElementsByClassName('content')[0];
     var note = {};
     note.position = { top: e.offsetTop, left: e.offsetLeft, w: e.offsetWidth, h: e.offsetHeight };
     note.zindex = e.style.zIndex;
     note.id = e.getAttribute('data-id');
-    note.content = e.getElementsByClassName('content')[0].innerHTML;
+    note.content = content.innerHTML;
+    note.class = content.className;
     note.backgroundColor = e.style.backgroundColor;
     note.color = e.style.color;
     note.label = e.label;

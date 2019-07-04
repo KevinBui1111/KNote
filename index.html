@@ -2,23 +2,15 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <title></title>
-  <script src="jquery-3.2.1.min.js"></script>
-  <script src="http://www.javascripttoolbox.com/libsource.php/date/source/date.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-
-  <script src="script.js"></script>
-  <script src="kpopup/kpopup.js"></script>
-  <script src="kpopup/popup-ajax.js"></script>
-  <script src="jqueryslidemenu/jqueryslidemenu.js"></script>
-  <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+  <title>KNote</title>
+  <link rel="icon" href="notes.png">
 
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="kpopup/kpopup.css" />
   <link rel="stylesheet" href="note.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css" />
+  <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
   <link rel="stylesheet" href="jqueryslidemenu/jqueryslidemenu.css" />
-  <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css" />
+  <link rel="stylesheet" href="css/chosen.css" />
 
 </head>
 <body spellcheck="false">
@@ -50,7 +42,7 @@
       </div>
     </div>
     <div class="kmenu-item" onclick="toggle_code_style()"><div class="title">Code style</div></div>
-    <div class="kmenu-item">
+    <div class="kmenu-item noclose">
       <select id="ddl_label" multiple></select>
 
       <!--<div class="title">Label</div>
@@ -64,7 +56,8 @@
 
   <hr />
   <div>Created date: 2017-10-04 16:58</div>
-  <div>Created date: 2017-10-29 18:30</div>
+  <div>Modified date: 2017-10-29 18:30</div>
+  <div>Modified date: 2017-11-17 13:55</div>
 
   <div class="hidden">
     <div id="knote_temp" class="knote" tabindex="-1">
@@ -82,5 +75,16 @@
       <div class="corner"></div>
     </div>
   </div>
+
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="script/date.js"></script>
+  <script src="script/bootstrap-datepicker.min.js"></script>
+
+  <script src="script.js"></script>
+  <script src="kpopup/kpopup.js"></script>
+  <script src="kpopup/popup-ajax.js"></script>
+  <script src="jqueryslidemenu/jqueryslidemenu.js"></script>
+  <script src="script/chosen.jquery.js"></script>
+
 </body>
 </html>
