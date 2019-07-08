@@ -7,8 +7,32 @@ var current_note;
 var dic_label = {};
 var dic_label_note = {};
 
+const URL_ROOT = 'http://localhost:10101'
+  ,URL_GET =    URL_ROOT + '/LA/la_get'
+  ,URL_UPDATE = URL_ROOT + '/LA/la_update'
+  ,urlparam = new URLSearchParams(document.location.search)
+  ,USERNAME = urlparam.get('username') || 'kevinbui'
+  ,WEB_APP = 'knote'
+  ,STORAGE_NAME = WEB_APP + '_' + USERNAME
+;
+
 $(document).ready(function () {
-  list_note = localStorage.note ? JSON.parse(localStorage.note) : [];
+  la_get();
+});
+
+function on_receive_data(data_server, textStatus, jqXHR) {
+  if (data_server) data_server.DATA_CONTENT = JSON.parse(data_server.DATA_CONTENT);
+  // check data from db is new or old
+  var data_local = JSON.parse(localStorage[STORAGE_NAME] || null);
+
+  var data_apply = null;
+  if (data_local && data_server) {
+    data_apply = data_local.DATE_UPDATED > data_server.DATE_UPDATED ? data_local : data_server;
+  }
+  else data_apply = data_local || data_server;
+
+  list_note = data_apply ? data_apply.DATA_CONTENT : [];
+
   list_note.forEach((e, i) => {
     maxid = Math.max(maxid, e.id);
 
@@ -88,8 +112,8 @@ $(document).ready(function () {
 	  });
   });
 
-  setInterval(save_note, 2000);
-});
+  setInterval(save_note, 10000);
+}
 
 String.prototype.format = function () {
   var s = this;
@@ -262,8 +286,12 @@ function save_note() {
 
   list_note.forEach((e, i) => { e.zindex = i; });
 
-  localStorage.note = JSON.stringify(list_note);
-  //localStorage.dic_label = JSON.stringify(dic_label);
+  // localStorage.note = JSON.stringify(list_note);
+  localStorage[STORAGE_NAME] = JSON.stringify({
+    DATE_UPDATED: new Date(),
+    DATA_CONTENT: list_note
+  });
+  la_update();
 }
 
 function show_color_list(e) {
@@ -336,4 +364,37 @@ function generate_ddl_label() {
 
 function label_note(note, label) {
   return note.getAttribute('data-id') + ' - ' + label;
+}
+
+function la_get() {
+  $.get (
+    URL_GET,
+    {
+      username: USERNAME,
+      web_app: WEB_APP,
+    },
+    on_receive_data,
+  )
+  .fail(function(jqxhr, textStatus, error)  {
+    console.log( "error la_get" );
+    on_receive_data();
+  })
+}
+
+function la_update() {
+  $.post (
+    URL_UPDATE,
+    {
+      username: USERNAME,
+      web_app: WEB_APP,
+      data_content: JSON.stringify(list_note)
+    },
+    function (data){
+      //alert('Thanks! ' + JSON.stringify(data));
+    }
+  )
+  .fail(function(jqxhr, textStatus, error)  {
+    alert( "error la_update " + error );
+
+  })
 }
