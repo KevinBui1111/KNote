@@ -7,7 +7,7 @@ var current_note;
 var dic_label = {};
 var dic_label_note = {};
 
-const URL_ROOT = 'http://localhost:10101'
+const URL_ROOT = 'http://cct-test.homecredit.vn'
   ,URL_GET =    URL_ROOT + '/LA/la_get'
   ,URL_UPDATE = URL_ROOT + '/LA/la_update'
   ,urlparam = new URLSearchParams(document.location.search)
@@ -112,7 +112,7 @@ function on_receive_data(data_server, textStatus, jqXHR) {
 	  });
   });
 
-  setInterval(save_note, 10000);
+  setInterval(save_note, 30000);
 }
 
 String.prototype.format = function () {
