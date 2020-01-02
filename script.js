@@ -112,7 +112,8 @@ function on_receive_data(data_server, textStatus, jqXHR) {
 	  });
   });
 
-  setInterval(save_note, 30000);
+  if (data_server == data_apply)
+    setInterval(save_note, 30000);
 }
 
 String.prototype.format = function () {
