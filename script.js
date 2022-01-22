@@ -17,6 +17,7 @@ const URL_ROOT = 'http://cct-test.homecredit.vn'
 ;
 
 $(document).ready(function () {
+  console.log(new Date());
   la_get();
 });
 
@@ -25,6 +26,9 @@ function on_receive_data(data_server, textStatus, jqXHR) {
   // check data from db is new or old
   var data_local = JSON.parse(localStorage[STORAGE_NAME] || null);
 
+  console.log('local: ' + data_local?.DATE_UPDATED);
+  console.log('server: ' + data_server?.DATE_UPDATED);
+  
   var data_apply = null;
   if (data_local && data_server) {
     data_apply = data_local.DATE_UPDATED > data_server.DATE_UPDATED ? data_local : data_server;
@@ -112,8 +116,9 @@ function on_receive_data(data_server, textStatus, jqXHR) {
 	  });
   });
 
-  if (data_server == data_apply)
-    setInterval(save_note, 30000);
+  setInterval(save_note, 30000);
+  if (data_local == data_apply)
+    document.getElementById("label-area").style.backgroundColor = "#FF000077";
 }
 
 String.prototype.format = function () {
@@ -373,6 +378,7 @@ function la_get() {
     {
       username: USERNAME,
       web_app: WEB_APP,
+      _: Date.now()
     },
     on_receive_data,
   )
@@ -391,11 +397,12 @@ function la_update() {
       data_content: JSON.stringify(list_note)
     },
     function (data){
-      //alert('Thanks! ' + JSON.stringify(data));
+      document.getElementById("label-area").style.backgroundColor = "";
+      console.info('la_update: success!');
     }
   )
   .fail(function(jqxhr, textStatus, error)  {
-    alert( "error la_update " + error );
-
+    document.getElementById("label-area").style.backgroundColor = "#FF000077";
+    console.error( "la_update: " + error );
   })
 }
